@@ -36,13 +36,11 @@ _PY_KEYWORDS = {
 
 
 # tokenize 类型到统一 TokenKind 的映射
+# 注：FSTRING_* 常量是 Python 3.12 新增，对 3.10/3.11 用 getattr 兜底
 _TOK_TYPE_MAP = {
     tokenize.NAME: TokenKind.IDENTIFIER,
     tokenize.NUMBER: TokenKind.NUMBER,
     tokenize.STRING: TokenKind.STRING,
-    tokenize.FSTRING_START: TokenKind.STRING,
-    tokenize.FSTRING_MIDDLE: TokenKind.STRING,
-    tokenize.FSTRING_END: TokenKind.STRING,
     tokenize.OP: TokenKind.OPERATOR,
     tokenize.COMMENT: TokenKind.COMMENT,
     tokenize.NEWLINE: TokenKind.NEWLINE,
@@ -50,6 +48,10 @@ _TOK_TYPE_MAP = {
     tokenize.INDENT: TokenKind.INDENT,
     tokenize.DEDENT: TokenKind.DEDENT,
 }
+for _name in ("FSTRING_START", "FSTRING_MIDDLE", "FSTRING_END"):
+    _val = getattr(tokenize, _name, None)
+    if _val is not None:
+        _TOK_TYPE_MAP[_val] = TokenKind.STRING
 
 
 class PythonParser(ParserAdapter):

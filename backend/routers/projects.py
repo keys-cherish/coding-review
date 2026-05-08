@@ -71,13 +71,14 @@ async def get_project(project_id: int, db: AsyncSession = Depends(get_db)) -> Pr
     return ProjectOut.model_validate(p)
 
 
-@router.delete("/{project_id}", status_code=204, summary="删除项目")
-async def delete_project(project_id: int, db: AsyncSession = Depends(get_db)) -> None:
+@router.delete("/{project_id}", summary="删除项目")
+async def delete_project(project_id: int, db: AsyncSession = Depends(get_db)) -> dict:
     p = await db.get(Project, project_id)
     if p is None:
         raise HTTPException(status_code=404, detail="项目不存在")
     await db.delete(p)
     await db.commit()
+    return {"ok": True, "deleted_id": project_id}
 
 
 @router.get("/{project_id}/versions", response_model=list[VersionOut], summary="版本列表")

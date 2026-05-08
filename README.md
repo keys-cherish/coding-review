@@ -46,11 +46,12 @@ CodeGuard Pro 是一款**纯本地、零外部依赖**的代码质量平台。
 
 ### 环境要求
 
-- **Python 3.10+**（推荐 3.11 / 3.12）
+- **Python 3.10 / 3.11 / 3.12**（推荐 3.11，启动脚本默认拉取）
+- **uv** — 现代 Python 包管理器，比 pip 快 10-100 倍。脚本会**自动安装**，无需手动准备
 - 操作系统：Windows 10/11、Ubuntu 20.04+、macOS 12+
 - 浏览器：Chrome / Edge / Firefox（最新版）
 
-### 一键启动
+### 一键启动（推荐）
 
 **Windows：**
 ```cmd
@@ -64,22 +65,27 @@ chmod +x start.sh
 ```
 
 启动脚本会自动完成：
-1. 创建 Python 虚拟环境
-2. 安装依赖 (`pip install -r requirements.txt`)
-3. 初始化 SQLite 数据库
-4. 启动 Uvicorn 服务
-5. 浏览器自动打开 `http://127.0.0.1:8000`
+1. 检查 / 安装 **uv**（若未安装则用 pip 装一份到 `--user`）
+2. 用 `uv venv --python 3.11` 创建 `.venv`（按需自动下载 Python 解释器）
+3. 用 `uv pip install -r requirements.txt` 装依赖
+4. 初始化 SQLite 数据库
+5. 启动 Uvicorn 服务，浏览器自动打开 `http://127.0.0.1:8000`
+
+> Windows 上失败时窗口不会闪退，每个错误都会停在 `pause`，方便阅读。
 
 ### 手动启动
 
 ```bash
-python -m venv venv
-# Windows: venv\Scripts\activate
-source venv/bin/activate
+# 安装 uv（一次性）
+curl -LsSf https://astral.sh/uv/install.sh | sh        # Linux/Mac
+# 或：
+pip install uv                                          # 任意平台
 
-pip install -r requirements.txt
-python -m scripts.init_db
-python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
+# 项目内
+uv venv --python 3.11
+uv pip install -r requirements.txt
+.venv/bin/python -m scripts.init_db                     # Windows: .venv\Scripts\python.exe
+.venv/bin/python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
 ### 验证
