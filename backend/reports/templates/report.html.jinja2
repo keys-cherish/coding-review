@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>CodeGuard Pro 检测报告 - {{ project.name }}</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: #1a1f36;
+    background: #f6f8fb;
+    line-height: 1.6;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 36px 48px; background: #fff; }
+  /* 封面 */
+  .cover {
+    background: linear-gradient(135deg, #0a2540 0%, #1e3a5f 50%, #2563eb 100%);
+    color: #fff;
+    padding: 64px 48px;
+    border-radius: 12px;
+    margin-bottom: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,212,255,0.25) 0%, transparent 70%);
+  }
+  .cover h1 { font-size: 36px; margin: 0 0 12px; letter-spacing: 1px; }
+  .cover .subtitle { opacity: 0.85; font-size: 16px; }
+  .cover .score-big {
+    font-size: 96px;
+    font-weight: 700;
+    margin-top: 28px;
+    background: linear-gradient(120deg, #00d4ff, #5ce28b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .grade-badge {
+    display: inline-block;
+    padding: 6px 18px;
+    background: #fff;
+    color: #0a2540;
+    border-radius: 999px;
+    font-weight: 700;
+    margin-left: 12px;
+    font-size: 24px;
+    vertical-align: middle;
+  }
+  .grade-A { background: #5ce28b; color: #0a3320; }
+  .grade-B { background: #00d4ff; color: #002b3a; }
+  .grade-C { background: #ffb84d; color: #3d2700; }
+  .grade-D { background: #ff5470; color: #fff; }
+  .meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 28px; }
+  .meta-item { background: rgba(255,255,255,0.08); padding: 12px 16px; border-radius: 8px; }
+  .meta-item .label { font-size: 12px; opacity: 0.7; }
+  .meta-item .value { font-size: 16px; font-weight: 600; }
+
+  /* 通用卡片 */
+  section { margin-bottom: 36px; }
+  h2 {
+    font-size: 22px;
+    margin: 0 0 18px;
+    border-left: 4px solid #2563eb;
+    padding-left: 12px;
+    color: #0a2540;
+  }
+  .card { background: #fff; border: 1px solid #e6ebf1; border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+  .summary { background: #eff6ff; border-left: 4px solid #2563eb; padding: 16px 20px; border-radius: 8px; }
+
+  /* 评分块 */
+  .scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .score-card {
+    background: #fff;
+    border: 1px solid #e6ebf1;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+  .score-card .label { color: #5b6b87; font-size: 13px; margin-bottom: 6px; }
+  .score-card .value { font-size: 36px; font-weight: 700; color: #0a2540; }
+  .score-card .bar { height: 6px; background: #e6ebf1; border-radius: 3px; margin-top: 10px; overflow: hidden; }
+  .score-card .bar-fill { height: 100%; background: linear-gradient(90deg, #00d4ff, #2563eb); border-radius: 3px; }
+
+  /* 表格 */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #eef1f5; vertical-align: top; }
+  th { background: #f6f8fb; font-weight: 600; color: #5b6b87; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+  tr:hover { background: #f9fbff; }
+  code { font-family: "JetBrains Mono", Consolas, monospace; background: #f0f4f9; padding: 1px 6px; border-radius: 4px; font-size: 12px; }
+
+  /* 严重度 */
+  .sev-error   { color: #c1121f; font-weight: 600; }
+  .sev-warning { color: #d97706; font-weight: 600; }
+  .sev-info    { color: #2563eb; font-weight: 600; }
+  .risk-low      { color: #059669; }
+  .risk-medium   { color: #d97706; }
+  .risk-high     { color: #dc2626; }
+  .risk-critical { color: #991b1b; font-weight: 700; }
+
+  /* 进度横条（重复块跨度可视化） */
+  .dup-block {
+    background: #fff7ed;
+    border: 1px solid #fdba74;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+  }
+
+  /* 页脚 */
+  footer {
+    text-align: center;
+    color: #8896b0;
+    font-size: 12px;
+    padding: 28px 0 12px;
+    border-top: 1px solid #e6ebf1;
+    margin-top: 36px;
+  }
+
+  /* 打印 */
+  @media print {
+    body { background: #fff; }
+    .container { padding: 12mm; max-width: 100%; }
+    .cover { page-break-after: avoid; }
+    section { page-break-inside: avoid; }
+    .card { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 封面 -->
+  <div class="cover">
+    <h1>CodeGuard Pro 代码质量检测报告</h1>
+    <div class="subtitle">{{ project.name }} · {{ version.tag }} · {{ project.language }}</div>
+    <div class="score-big">
+      {{ "%.1f"|format(score.overall) }}
+      <span class="grade-badge grade-{{ score.grade }}">{{ score.grade }}</span>
+    </div>
+    <div class="meta">
+      <div class="meta-item">
+        <div class="label">扫描时间</div>
+        <div class="value">{{ scan.finished_at[:19].replace("T", " ") if scan.finished_at else "-" }}</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">耗时</div>
+        <div class="value">{{ scan.duration_sec }} 秒</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">扫描文件 / 代码行</div>
+        <div class="value">{{ version.total_files }} 文件 / {{ version.total_lines }} 行</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 摘要 -->
+  <section>
+    <h2>一、执行摘要</h2>
+    <div class="summary">{{ summary }}</div>
+  </section>
+
+  <!-- 评分概览 -->
+  <section>
+    <h2>二、三维质量评分</h2>
+    <div class="scores">
+      <div class="score-card">
+        <div class="label">规范度</div>
+        <div class="value">{{ "%.1f"|format(score.spec) }}</div>
+        <div class="bar"><div class="bar-fill" style="width: {{ score.spec }}%"></div></div>
+      </div>
+      <div class="score-card">
+        <div class="label">重复度</div>
+        <div class="value">{{ "%.1f"|format(score.duplication) }}</div>
+        <div class="bar"><div class="bar-fill" style="width: {{ score.duplication }}%"></div></div>
+      </div>
+      <div class="score-card">
+        <div class="label">复杂度</div>
+        <div class="value">{{ "%.1f"|format(score.complexity) }}</div>
+        <div class="bar"><div class="bar-fill" style="width: {{ score.complexity }}%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 关键指标 -->
+  <section>
+    <h2>三、关键指标</h2>
+    <div class="card">
+      <table>
+        <tr>
+          <td>总问题数</td>
+          <td><strong>{{ metrics.total_issues }}</strong></td>
+          <td>
+            <span class="sev-error">严重 {{ metrics.error_count }}</span> ·
+            <span class="sev-warning">警告 {{ metrics.warning_count }}</span> ·
+            <span class="sev-info">提示 {{ metrics.info_count }}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>重复率</td>
+          <td colspan="2"><strong>{{ "%.2f"|format(metrics.duplication_rate * 100) }}%</strong></td>
+        </tr>
+        <tr>
+          <td>平均圈复杂度</td>
+          <td colspan="2"><strong>{{ "%.2f"|format(metrics.avg_complexity) }}</strong></td>
+        </tr>
+        <tr>
+          <td>最高圈复杂度</td>
+          <td colspan="2"><strong>{{ metrics.max_complexity }}</strong></td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- 热点文件 -->
+  {% if top_files %}
+  <section>
+    <h2>四、问题热点文件 Top 10</h2>
+    <div class="card" style="padding: 0;">
+      <table>
+        <thead><tr><th>#</th><th>文件路径</th><th>问题数</th></tr></thead>
+        <tbody>
+        {% for f in top_files %}
+          <tr><td>{{ loop.index }}</td><td><code>{{ f.path }}</code></td><td>{{ f.issues }}</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- 复杂度 -->
+  {% if complexity %}
+  <section>
+    <h2>五、复杂度热点 Top {{ complexity|length }}</h2>
+    <div class="card" style="padding: 0;">
+      <table>
+        <thead><tr><th>函数</th><th>文件</th><th>行数</th><th>圈复杂度</th><th>认知</th><th>嵌套</th><th>风险</th></tr></thead>
+        <tbody>
+        {% for c in complexity %}
+          <tr>
+            <td><code>{{ c.function_name }}</code></td>
+            <td><code>{{ c.file_path }}</code></td>
+            <td>{{ c.lines }}</td>
+            <td>{{ c.cyclomatic }}</td>
+            <td>{{ c.cognitive }}</td>
+            <td>{{ c.nesting_depth }}</td>
+            <td class="risk-{{ c.risk_level }}">{{ c.risk_level }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- 重复代码 -->
+  {% if duplications %}
+  <section>
+    <h2>六、重复代码块（{{ duplications|length }} 处）</h2>
+    {% for d in duplications %}
+      <div class="dup-block">
+        <strong>重复 #{{ loop.index }}</strong>
+        <span style="margin-left: 10px; color: #92400e; font-size: 13px;">
+          检测方式 <code>{{ d.method }}</code> · 跨度 <strong>{{ d.line_length }}</strong> 行
+        </span>
+        <ul style="margin-top: 6px;">
+          {% for o in d.occurrences %}
+            <li><code>{{ o.file_path }}</code> 第 {{ o.start_line }} ~ {{ o.end_line }} 行</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  <!-- 触发最多的规则 -->
+  {% if top_rules %}
+  <section>
+    <h2>七、问题分布 - 触发最多的规则</h2>
+    <div class="card" style="padding: 0;">
+      <table>
+        <thead><tr><th>规则编号</th><th>触发次数</th></tr></thead>
+        <tbody>
+        {% for r in top_rules %}
+          <tr><td><code>{{ r.rule_code }}</code></td><td>{{ r.count }}</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- 详细问题 -->
+  {% if issues %}
+  <section>
+    <h2>八、详细问题清单（共 {{ issues|length }} 条）</h2>
+    <div class="card" style="padding: 0;">
+      <table>
+        <thead><tr><th>#</th><th>规则</th><th>严重</th><th>位置</th><th>说明 / 建议</th></tr></thead>
+        <tbody>
+        {% for it in issues[:300] %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td><code>{{ it.rule_code }}</code></td>
+            <td class="sev-{{ it.severity }}">{{ it.severity }}</td>
+            <td><code>{{ it.file_path }}:{{ it.line }}</code></td>
+            <td>
+              <div>{{ it.message }}</div>
+              {% if it.suggestion %}
+                <div style="color: #5b6b87; font-size: 12px; margin-top: 4px;">
+                  💡 {{ it.suggestion }}
+                </div>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      {% if issues|length > 300 %}
+        <div style="padding: 12px 16px; color: #8896b0; font-size: 12px;">
+          仅显示前 300 条问题，详见 Markdown 报告或前端问题列表。
+        </div>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+  <footer>
+    由 CodeGuard Pro · 智能代码质量管理与规范检测平台 自动生成 · {{ generated_at }}
+  </footer>
+</div>
+</body>
+</html>

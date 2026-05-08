@@ -1,0 +1,71 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ===== 虚拟环境 =====
+venv/
+env/
+ENV/
+.venv/
+
+# ===== IDE =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ===== 项目运行时 =====
+data/codeguard.db
+data/codeguard.db-journal
+data/uploads/*
+!data/uploads/.gitkeep
+data/reports/*
+!data/reports/.gitkeep
+*.log
+logs/
+
+# ===== 测试 =====
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+.tox/
+
+# ===== Node =====
+node_modules/
+.parcel-cache/
+
+# ===== 临时文件 =====
+*.tmp
+*.bak
+.cache/
+
+# ===== 项目内部文档（不公开推送） =====
+docs/
+
+# ===== Claude 工作文件 =====
+.claude/
+CLAUDE.md
