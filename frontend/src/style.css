@@ -1,0 +1,85 @@
+:root {
+    /* 核心色彩体系：陶土珊瑚色 */
+    --primary: #cf7c65;
+    --primary-light: #f4e8e4;
+    --primary-hover: #b86954;
+    --bg-color: #fcfcfb;
+    --text-dark: #1a1a1a;
+    --text-light: #666666;
+    --grid-color: #f0f0f0;
+    --card-bg: #ffffff;
+    --border-color: #eaeaea;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-color);
+    /* 核心：淡色科技感网格底纹 */
+    background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 32px 32px;
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main.app-content {
+    flex: 1;
+    padding: 40px 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* 页面切换淡入动画 */
+.view-container {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 按钮通用样式 */
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 4px 14px rgba(207, 124, 101, 0.3);
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}

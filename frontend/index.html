@@ -1,54 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CodeGuard Pro · 智能代码质量管理与规范检测平台</title>
-  <link rel="icon" type="image/svg+xml" href="/static/assets/logo.svg">
-
-  <!-- Tailwind CSS CDN（生产期间使用 standalone CDN，支持 jit） -->
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.0.0/dist/index.global.min.js"></script>
-  <!-- Vue 3 CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/vue@3.4.38/dist/vue.global.prod.js"></script>
-  <!-- ECharts CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
-  <!-- Highlight.js CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/styles/atom-one-dark.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/lib/core.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/lib/languages/python.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.10.0/lib/languages/java.min.js"></script>
-
-  <link rel="stylesheet" href="/static/css/theme.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeGuard - 智能代码质量网关</title>
 </head>
-<body class="bg-app text-app antialiased">
 
-<div id="app">
-  <!-- 加载占位 -->
-  <div class="min-h-screen flex items-center justify-center">
-    <div class="text-center">
-      <div class="loader mb-4"></div>
-      <p class="text-app-muted text-sm">CodeGuard Pro 加载中...</p>
-    </div>
-  </div>
-</div>
-
-<script src="/static/js/api.js"></script>
-<script src="/static/js/store.js"></script>
-<script src="/static/js/router.js"></script>
-<script src="/static/js/components/charts.js"></script>
-<script src="/static/js/components/widgets.js"></script>
-<script src="/static/js/pages/HomePage.js"></script>
-<script src="/static/js/pages/ProjectDetailPage.js"></script>
-<script src="/static/js/pages/UploadPage.js"></script>
-<script src="/static/js/pages/ScanProgressPage.js"></script>
-<script src="/static/js/pages/ScanResultPage.js"></script>
-<script src="/static/js/pages/IssuesPage.js"></script>
-<script src="/static/js/pages/DuplicationsPage.js"></script>
-<script src="/static/js/pages/ComplexityPage.js"></script>
-<script src="/static/js/pages/RulesPage.js"></script>
-<script src="/static/js/pages/ReportPage.js"></script>
-<script src="/static/js/pages/AboutPage.js"></script>
-<script src="/static/js/app.js"></script>
-
+<body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
 </body>
+
 </html>
