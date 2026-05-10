@@ -16,7 +16,12 @@ pydantic==2.9.2
 pydantic-settings==2.5.2
 
 # ----- 代码解析 -----
+# 原生 AST 解析（Java）
 javalang==0.13.0
+# Tree-sitter 通用解析：覆盖 JS/TS/Go/Rust/C/C++/C#/Ruby/PHP/Kotlin/Swift 等 165+ 语言
+# error-tolerant，无需目标语言工具链即可构建 AST
+tree-sitter==0.23.2
+tree-sitter-language-pack==0.4.0
 
 # ----- 模板与报告 -----
 Jinja2==3.1.4

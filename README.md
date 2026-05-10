@@ -1,6 +1,6 @@
 # CodeGuard Pro · 智能代码质量管理与规范检测平台
 
-> 苏州科技大学《软件工程》实践课题 8 — 代码质量管理与规范检测系统
+> 软件工程课程实践项目 — 代码质量管理与规范检测系统
 
 [![Python](https://img.shields.io/badge/python-3.10+-blue)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688)](https://fastapi.tiangolo.com/)
@@ -158,7 +158,7 @@ uv pip install -r requirements.txt
 - **规则引擎** (`backend/engines/rules/`)：基于 `@register` 装饰器自动注册，单条规则只关心"如何检测"，调度由 `RuleEngine` 编排
 - **复杂度引擎** (`backend/engines/complexity/`)：圈复杂度按 McCabe 1976 经典公式实现；Cognitive 按 SonarSource 2018 白皮书实现
 - **重复检测** (`backend/engines/duplication/`)：双引擎并行 — Token 滚动哈希定位"复制粘贴"，AST 归一化指纹定位"换变量名"
-- **评分引擎** (`backend/engines/scoring/`)：三维评分 + 权重综合，规则与映射明文记录，便于课程答辩时讲清楚
+- **评分引擎** (`backend/engines/scoring/`)：三维评分 + 权重综合，规则与映射明文记录，便于讲清楚每一项扣分理由
 
 详细架构、序列图、数据库 ER 图见 [docs/architecture.md](docs/architecture.md)。
 
@@ -372,7 +372,7 @@ A：实现 `ParserAdapter` 子类并注册即可，详见 `docs/architecture.md`
 
 ## 评分映射
 
-本项目针对《软件工程实践课题 8 评分标准》的覆盖说明：
+本项目对照常见软件工程课程「代码质量与规范检测」评分维度的覆盖说明：
 
 | 评分项 | 实现位置 |
 |--------|---------|
@@ -391,4 +391,4 @@ A：实现 `ParserAdapter` 子类并注册即可，详见 `docs/architecture.md`
 
 ## License
 
-MIT © 2026 苏州科技大学软件工程实践课团队
+MIT © 2026 CodeGuard Pro Contributors

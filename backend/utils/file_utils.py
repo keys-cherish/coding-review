@@ -58,10 +58,15 @@ def walk_source_files(
 
 def detect_language(filename: str) -> str | None:
     """根据扩展名识别语言。"""
-    if filename.endswith(".py"):
+    lower = filename.lower()
+    if lower.endswith(".py"):
         return "python"
-    if filename.endswith(".java"):
+    if lower.endswith(".java"):
         return "java"
+    if lower in {".env", "dockerfile"} or lower.endswith((
+        ".json", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".conf", ".properties", ".env",
+    )):
+        return "config"
     return None
 
 

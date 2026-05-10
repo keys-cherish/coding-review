@@ -1,15 +1,19 @@
 import './style.css';
-import { renderHeader } from './components/Header';
-import { renderHome } from './views/Home';
-import { router } from './router';
+import './styles/visualization.css';
+import { mountLayout } from './components/Layout';
+import { routes, router } from './router';
+import { toast } from './components/Toast';
 
 const app = document.getElementById('app')!;
 
-renderHeader(app);
+// 全局错误提示
+window.addEventListener('unhandledrejection', (e) => {
+    console.error(e);
+    toast.error('未处理的错误，请查看控制台');
+});
 
-const mainContent = document.createElement('main');
-mainContent.id = 'main-content';
-mainContent.className = 'app-content';
-app.appendChild(mainContent);
+// 挂载侧边栏 + 顶栏 + 内容区
+mountLayout(app);
 
-router.navigate(renderHome);
+// 启动路由（默认首页）
+router.start(routes);

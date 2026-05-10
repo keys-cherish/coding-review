@@ -79,8 +79,9 @@ def discover_rules() -> int:
     """递归 import 所有内置规则模块，触发装饰器注册。"""
     import backend.engines.rules.python as py_pkg
     import backend.engines.rules.java as java_pkg
+    import backend.engines.rules.config  # noqa: F401
 
-    count = 0
+    count = 1
     for pkg in (py_pkg, java_pkg):
         for _, modname, _ in pkgutil.iter_modules(pkg.__path__):
             importlib.import_module(f"{pkg.__name__}.{modname}")

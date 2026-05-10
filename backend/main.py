@@ -57,10 +57,11 @@ app.add_middleware(
 
 
 # ---------- 路由注册 ----------
-from backend.routers import projects, scans, issues, reports, rules, websocket  # noqa: E402
+from backend.routers import projects, scans, issues, reports, rules, websocket, visualization  # noqa: E402
 
 app.include_router(projects.router, prefix="/api/projects", tags=["项目管理"])
 app.include_router(scans.router, prefix="/api/scans", tags=["扫描任务"])
+app.include_router(visualization.router, prefix="/api/scans", tags=["架构可视化"])
 app.include_router(issues.router, prefix="/api/issues", tags=["问题清单"])
 app.include_router(reports.router, prefix="/api/reports", tags=["检测报告"])
 app.include_router(rules.router, prefix="/api/rules", tags=["规则管理"])

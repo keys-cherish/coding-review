@@ -34,6 +34,7 @@ class Settings(BaseSettings):
 
     upload_dir: Path = Field(default=PROJECT_ROOT / "data" / "uploads")
     report_dir: Path = Field(default=PROJECT_ROOT / "data" / "reports")
+    scan_cache_dir: Path = Field(default=PROJECT_ROOT / "data" / "scan_cache")
     max_upload_size_mb: int = 100
 
     frontend_dir: Path = Field(default=PROJECT_ROOT / "frontend")
@@ -57,14 +58,18 @@ class Settings(BaseSettings):
     host: str = "127.0.0.1"
     port: int = 8000
 
-    supported_languages: tuple[str, ...] = ("python", "java")
+    supported_languages: tuple[str, ...] = ("python", "java", "config")
     python_extensions: tuple[str, ...] = (".py",)
     java_extensions: tuple[str, ...] = (".java",)
+    config_extensions: tuple[str, ...] = (
+        ".json", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".conf", ".properties", ".env",
+    )
 
     def ensure_dirs(self) -> None:
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self.upload_dir.mkdir(parents=True, exist_ok=True)
         self.report_dir.mkdir(parents=True, exist_ok=True)
+        self.scan_cache_dir.mkdir(parents=True, exist_ok=True)
 
 
 settings = Settings()

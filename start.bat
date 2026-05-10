@@ -68,13 +68,17 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM ---------- 4. 初始化数据库 ----------
-echo [4/4] Initializing database...
-.venv\Scripts\python.exe -m scripts.init_db
-if errorlevel 1 (
-    echo [X] Database init failed
-    pause
-    exit /b 1
+REM ---------- 4. 初始化数据库（仅首次） ----------
+if not exist "data\codeguard.db" (
+    echo [4/4] Initializing database ^(first run^)...
+    .venv\Scripts\python.exe -m scripts.init_db
+    if errorlevel 1 (
+        echo [X] Database init failed
+        pause
+        exit /b 1
+    )
+) else (
+    echo [4/4] Database exists, skipping init ^(rules will sync on startup^)
 )
 
 REM ---------- 5. 启动 ----------

@@ -51,11 +51,13 @@ def collect_source_files(
     若 language 为 'multi'，则同时收集 Python 和 Java 文件。
     """
     if language == "python":
-        exts = settings.python_extensions
+        exts = settings.python_extensions + settings.config_extensions
     elif language == "java":
-        exts = settings.java_extensions
+        exts = settings.java_extensions + settings.config_extensions
+    elif language == "config":
+        exts = settings.config_extensions
     else:
-        exts = settings.python_extensions + settings.java_extensions
+        exts = settings.python_extensions + settings.java_extensions + settings.config_extensions
 
     out: list[tuple[Path, str, str, int, int]] = []
     for p in walk_source_files(root, exts):
